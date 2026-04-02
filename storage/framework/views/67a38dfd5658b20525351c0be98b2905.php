@@ -295,6 +295,7 @@
             <button type="submit" class="logout-btn">Keluar</button>
         </form>
     </div>
+    <!-- asdasdasd -->
 </nav>
 
 <main>
@@ -366,10 +367,19 @@
                      alt="<?php echo e($link->original_filename); ?>" loading="lazy"
                      onerror="this.style.background='#18181f'">
                 <div class="recent-meta">
-                    <span class="recent-visits">👁 <?php echo e($link->visit_count); ?></span>
-                    <div class="recent-name"><?php echo e($link->original_filename); ?></div>
-                    <div class="recent-code">/i/<?php echo e($link->custom_alias ?? $link->short_code); ?></div>
-                </div>
+    <span class="recent-visits">👁 <?php echo e($link->visit_count); ?></span>
+    <div class="recent-name"><?php echo e($link->original_filename); ?></div>
+    
+    
+    <?php if(auth()->user()->isAdmin()): ?>
+        <div style="font-size: 0.65rem; color: var(--accent2); margin-top: 4px;">
+            👤 Owner: <?php echo e($link->user->name ?? 'Unknown'); ?>
+
+        </div>
+    <?php endif; ?>
+    
+    <div class="recent-code">/i/<?php echo e($link->custom_alias ?? $link->short_code); ?></div>
+</div>
             </a>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>

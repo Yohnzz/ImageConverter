@@ -367,10 +367,18 @@
                      alt="{{ $link->original_filename }}" loading="lazy"
                      onerror="this.style.background='#18181f'">
                 <div class="recent-meta">
-                    <span class="recent-visits">👁 {{ $link->visit_count }}</span>
-                    <div class="recent-name">{{ $link->original_filename }}</div>
-                    <div class="recent-code">/i/{{ $link->custom_alias ?? $link->short_code }}</div>
-                </div>
+    <span class="recent-visits">👁 {{ $link->visit_count }}</span>
+    <div class="recent-name">{{ $link->original_filename }}</div>
+    
+    {{-- Info tambahan khusus Admin --}}
+    @if(auth()->user()->isAdmin())
+        <div style="font-size: 0.65rem; color: var(--accent2); margin-top: 4px;">
+            👤 Owner: {{ $link->user->name ?? 'Unknown' }}
+        </div>
+    @endif
+    
+    <div class="recent-code">/i/{{ $link->custom_alias ?? $link->short_code }}</div>
+</div>
             </a>
             @endforeach
         </div>

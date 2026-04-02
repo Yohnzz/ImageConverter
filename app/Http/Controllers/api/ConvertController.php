@@ -17,15 +17,19 @@ class ConvertController extends Controller
     }
 
     public function index()
-    {
-        // Hanya ambil gambar milik user yang sedang login
-        $recentLinks = ImageLink::where('user_id', auth()->id())
-            ->latest()
-            ->take(6)
-            ->get();
+{
+    // Jika admin, ambil 6 gambar terbaru dari SIAPA PUN
+    // Jika user, ambil 6 gambar terbaru MILIK SENDIRI
+    $query = ImageLink::latest()->take(6);
 
-        return view('index', compact('recentLinks'));
+    if (auth()->user()->role !== 'admin') {
+        $query->where('user_id', auth()->id());
     }
+
+    $recentLinks = $query->get();
+
+    return view('index', compact('recentLinks'));
+}
 
     public function store(Request $request)
     {
@@ -82,27 +86,30 @@ class ConvertController extends Controller
     }
 
     public function list()
-    {
-        // Hanya tampilkan link milik user yang login
-        $links = ImageLink::where('user_id', auth()->id())
-            ->latest()
-            ->paginate(12);
+{
+    // Logika yang sama untuk halaman "Semua Link" (dengan pagination)
+    $query = ImageLink::latest();
 
-        return view('list', compact('links'));
+    if (auth()->user()->role !== 'admin') {
+        $query->where('user_id', auth()->id());
     }
+
+    $links = $query->paginate(12);
+
+    return view('list', compact('links'));
+}
 
     public function destroy(ImageLink $imageLink)
-    {
-        // Pastikan hanya pemilik yang bisa hapus
-        if ($imageLink->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
-
+{
+    // Izinkan jika dia Admin ATAU dia pemilik gambarnya
+    if (auth()->user()->role === 'admin' || $imageLink->user_id === auth()->id()) {
         Storage::delete('public/images/' . $imageLink->stored_filename);
         $imageLink->delete();
-
         return response()->json(['success' => true]);
     }
+
+    return response()->json(['message' => 'Tidak punya akses!'], 403);
+}
 
     private function generateUniqueCode(int $length = 7): string
     {
