@@ -9,8 +9,8 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('leftHeadline', null, []); ?> 
-        <h2>Welcome back to your workspace</h2>
-        <p>Manage your projects, collaborate with your team, and track progress — all in one place.</p>
+        <h2>Masuk untuk upload tanpa batas guest</h2>
+        <p>Guest tetap bisa upload, tapi login memberi kuota lebih besar dan manajemen link yang lebih leluasa.</p>
      <?php $__env->endSlot(); ?>
 
      <?php $__env->slot('leftDots', null, []); ?> 
@@ -25,8 +25,8 @@
     <?php endif; ?>
 
     <div class="form-heading">
-        <h1>Sign in</h1>
-        <p>Enter your credentials to access your account</p>
+        <h1>Login</h1>
+        <p>Masuk untuk upload gambar hingga 100 MB per file</p>
     </div>
 
     <form method="POST" action="<?php echo e(route('login')); ?>">
@@ -65,17 +65,21 @@ unset($__errorArgs, $__bag); ?>
         <div class="row-between">
             <label class="check-label">
                 <input type="checkbox" name="remember" id="remember_me" />
-                Keep me signed in
+                Tetap masuk
             </label>
             <?php if(Route::has('password.request')): ?>
-                <a href="<?php echo e(route('password.request')); ?>" class="link">Forgot password?</a>
+                <a href="<?php echo e(route('password.request')); ?>" class="link">Lupa password?</a>
             <?php endif; ?>
         </div>
 
-        <button type="submit" class="btn-primary">Continue</button>
+        <button type="submit" class="btn-primary">Masuk</button>
 
         <div class="form-footer">
-            Don't have an account? <a href="<?php echo e(route('register')); ?>" class="link">Create one</a>
+            Belum punya akun? <a href="<?php echo e(route('register')); ?>" class="link">Daftar sekarang</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <a href="/" class="link" style="font-size: 0.9rem;">← Lanjut tanpa akun</a>
         </div>
     </form>
  <?php echo $__env->renderComponent(); ?>

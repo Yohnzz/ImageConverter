@@ -55,5 +55,9 @@
         <div class="form-footer">
             Sudah punya akun? <a href="{{ route('login') }}" class="link">Login</a>
         </div>
+
+        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <a href="/" class="link" style="font-size: 0.9rem;">← Lanjut tanpa akun</a>
+        </div>
     </form>
 </x-guest-layout>

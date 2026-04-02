@@ -54,5 +54,9 @@
         <div class="form-footer">
             Belum punya akun? <a href="{{ route('register') }}" class="link">Daftar sekarang</a>
         </div>
+
+        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <a href="/" class="link" style="font-size: 0.9rem;">← Lanjut tanpa akun</a>
+        </div>
     </form>
 </x-guest-layout>
