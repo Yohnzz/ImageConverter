@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('image_links', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('guest_token', 64)->nullable()->index();
             $table->string('original_filename');
             $table->string('stored_filename');
             $table->string('short_code', 10)->unique();
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->string('mime_type');
             $table->unsignedInteger('visit_count')->default(0);
             $table->timestamps();
+            $table->index(['guest_token', 'created_at']);
         });
     }
 

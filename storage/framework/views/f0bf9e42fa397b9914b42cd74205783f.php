@@ -9,8 +9,8 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('leftHeadline', null, []); ?> 
-        <h2>Join thousands of teams already using Nexus</h2>
-        <p>Set up your account in under two minutes and start collaborating today.</p>
+        <h2>Bikin akun biar upload makin lega</h2>
+        <p>Akun login mendapatkan batas ukuran upload sampai 100 MB per gambar.</p>
      <?php $__env->endSlot(); ?>
 
      <?php $__env->slot('leftDots', null, []); ?> 
@@ -20,8 +20,8 @@
      <?php $__env->endSlot(); ?>
 
     <div class="form-heading">
-        <h1>Create account</h1>
-        <p>Fill in your details to get started</p>
+        <h1>Daftar</h1>
+        <p>Buat akun baru untuk mengelola semua link gambar</p>
     </div>
 
     <form method="POST" action="<?php echo e(route('register')); ?>">
@@ -87,10 +87,14 @@ endif;
 unset($__errorArgs, $__bag); ?>
         </div>
 
-        <button type="submit" class="btn-primary">Create account</button>
+        <button type="submit" class="btn-primary">Buat akun</button>
 
         <div class="form-footer">
-            Already have an account? <a href="<?php echo e(route('login')); ?>" class="link">Sign in</a>
+            Sudah punya akun? <a href="<?php echo e(route('login')); ?>" class="link">Login</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <a href="/" class="link" style="font-size: 0.9rem;">← Lanjut tanpa akun</a>
         </div>
     </form>
  <?php echo $__env->renderComponent(); ?>
