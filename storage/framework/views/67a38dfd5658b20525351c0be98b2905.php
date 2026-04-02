@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>ImgDrop — Gambar Jadi Link Instan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -283,19 +283,18 @@
     <div class="nav-right">
         <a href="/links" class="nav-link">Semua Link</a>
 
-        {{-- Info user yang sedang login --}}
+        
         <div class="nav-user">
-            <div class="nav-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-            <span class="nav-name">{{ auth()->user()->name }}</span>
+            <div class="nav-avatar"><?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?></div>
+            <span class="nav-name"><?php echo e(auth()->user()->name); ?></span>
         </div>
 
-        {{-- Tombol logout --}}
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
+        
+        <form method="POST" action="<?php echo e(route('logout')); ?>" style="display:inline;">
+            <?php echo csrf_field(); ?>
             <button type="submit" class="logout-btn">Keluar</button>
         </form>
     </div>
-    <!-- asdasdasd -->
 </nav>
 
 <main>
@@ -331,7 +330,7 @@
                 <div>
                     <label class="alias-label">Short Link (opsional)</label>
                     <div class="alias-row">
-                        <span class="alias-prefix">{{ url('/i/') }}/</span>
+                        <span class="alias-prefix"><?php echo e(url('/i/')); ?>/</span>
                         <input type="text" class="alias-input" id="aliasInput"
                                placeholder="nama-custom" maxlength="30">
                     </div>
@@ -354,32 +353,32 @@
         </div>
     </div>
 
-    @if($recentLinks->count())
+    <?php if($recentLinks->count()): ?>
     <section class="section">
         <div class="section-header">
             <div class="section-title">Upload Terakhirmu</div>
             <a href="/links" class="see-all">Lihat semua</a>
         </div>
         <div class="recent-grid">
-            @foreach($recentLinks as $link)
-            <a href="{{ $link->getShortUrl() }}" target="_blank" class="recent-item">
-                <img class="recent-thumb" src="{{ $link->getImageUrl() }}"
-                     alt="{{ $link->original_filename }}" loading="lazy"
+            <?php $__currentLoopData = $recentLinks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $link): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <a href="<?php echo e($link->getShortUrl()); ?>" target="_blank" class="recent-item">
+                <img class="recent-thumb" src="<?php echo e($link->getImageUrl()); ?>"
+                     alt="<?php echo e($link->original_filename); ?>" loading="lazy"
                      onerror="this.style.background='#18181f'">
                 <div class="recent-meta">
-                    <span class="recent-visits">👁 {{ $link->visit_count }}</span>
-                    <div class="recent-name">{{ $link->original_filename }}</div>
-                    <div class="recent-code">/i/{{ $link->custom_alias ?? $link->short_code }}</div>
+                    <span class="recent-visits">👁 <?php echo e($link->visit_count); ?></span>
+                    <div class="recent-name"><?php echo e($link->original_filename); ?></div>
+                    <div class="recent-code">/i/<?php echo e($link->custom_alias ?? $link->short_code); ?></div>
                 </div>
             </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </section>
-    @endif
+    <?php endif; ?>
 </main>
 
 <footer>
-    ImgDrop &copy; {{ date('Y') }} — Gambar jadi link, sesimpel itu.
+    ImgDrop &copy; <?php echo e(date('Y')); ?> — Gambar jadi link, sesimpel itu.
 </footer>
 
 <script>
@@ -525,4 +524,4 @@ copyBtn.addEventListener('click', () => {
 });
 </script>
 </body>
-</html>
+</html><?php /**PATH D:\ImageConverter\imageconvert\resources\views/index.blade.php ENDPATH**/ ?>
