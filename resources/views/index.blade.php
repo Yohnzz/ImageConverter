@@ -282,20 +282,23 @@
     <a href="/" class="logo">ImgDrop ⚡</a>
     <div class="nav-right">
         <a href="/links" class="nav-link">Semua Link</a>
-
-        {{-- Info user yang sedang login --}}
-        <div class="nav-user">
-            <div class="nav-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-            <span class="nav-name">{{ auth()->user()->name }}</span>
-        </div>
-
-        {{-- Tombol logout --}}
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
-            <button type="submit" class="logout-btn">Keluar</button>
-        </form>
+        @if(auth()->check())
+            <div class="nav-user">
+                <div class="nav-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                <span class="nav-name">{{ auth()->user()->name }}</span>
+            </div>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                @csrf
+                <button type="submit" class="logout-btn">Keluar</button>
+            </form>
+        @else
+            <div class="nav-user">
+                <div class="nav-avatar">G</div>
+                <span class="nav-name">Guest</span>
+            </div>
+            <a href="{{ route('login') }}" class="nav-link">Login</a>
+        @endif
     </div>
-    <!-- asdasdasd -->
 </nav>
 
 <main>
@@ -303,6 +306,11 @@
         <div class="hero-tag">Upload · Convert · Bagikan</div>
         <h1>Gambar Kamu<br><span>Jadi Link Instan</span></h1>
         <p class="hero-desc">Upload gambar, dapatkan short link yang bisa langsung dibagikan. Simpel, cepat, tanpa ribet.</p>
+        @if($isGuest)
+            <p class="hero-desc" style="margin-top: 0.75rem;">
+                Mode guest aktif: privasi tetap aman, sisa upload hari ini {{ $guestRemainingUploads }}/5, maksimal {{ $maxUploadMb }} MB per file.
+            </p>
+        @endif
     </section>
 
     <div class="card-wrap">
@@ -311,7 +319,7 @@
                 <input type="file" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp">
                 <div class="drop-icon">🖼️</div>
                 <div class="drop-title">Klik atau drag gambar ke sini</div>
-                <div class="drop-subtitle">JPG, PNG, GIF, WebP — Maks. 10 MB</div>
+                <div class="drop-subtitle">JPG, PNG, GIF, WebP — Maks. {{ $maxUploadMb }} MB</div>
             </div>
 
             <div class="progress-bar" id="progressBar">
@@ -370,8 +378,7 @@
     <span class="recent-visits">👁 {{ $link->visit_count }}</span>
     <div class="recent-name">{{ $link->original_filename }}</div>
     
-    {{-- Info tambahan khusus Admin --}}
-    @if(auth()->user()->isAdmin())
+    @if(auth()->check() && auth()->user()->isAdmin())
         <div style="font-size: 0.65rem; color: var(--accent2); margin-top: 4px;">
             👤 Owner: {{ $link->user->name ?? 'Unknown' }}
         </div>

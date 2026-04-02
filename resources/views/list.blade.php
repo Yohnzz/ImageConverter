@@ -135,19 +135,27 @@
     <a href="/" class="logo">ImgDrop ⚡</a>
     <div class="nav-right">
         <a href="/" class="nav-link">+ Upload</a>
-        <div class="nav-user">
-            <div class="nav-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-            <span class="nav-name">{{ auth()->user()->name }}</span>
-        </div>
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
-            <button type="submit" class="logout-btn">Keluar</button>
-        </form>
+        @if(auth()->check())
+            <div class="nav-user">
+                <div class="nav-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                <span class="nav-name">{{ auth()->user()->name }}</span>
+            </div>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                @csrf
+                <button type="submit" class="logout-btn">Keluar</button>
+            </form>
+        @else
+            <div class="nav-user">
+                <div class="nav-avatar">G</div>
+                <span class="nav-name">Guest</span>
+            </div>
+            <a href="{{ route('login') }}" class="nav-link">Login</a>
+        @endif
     </div>
 </nav>
 
 <main>
-    <h1 class="page-title">Link Saya</h1>
+    <h1 class="page-title">{{ $isGuest ? 'Link Guest Saya' : 'Link Saya' }}</h1>
     <p class="page-sub">Kamu punya {{ $links->total() }} gambar tersimpan</p>
 
     @if($links->count())

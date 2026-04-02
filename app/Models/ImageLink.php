@@ -9,6 +9,7 @@ class ImageLink extends Model
 {
     protected $fillable = [
         'user_id',
+        'guest_token',
         'original_filename',
         'stored_filename',
         'short_code',
